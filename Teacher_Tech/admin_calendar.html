@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar - Admin</title>
+
+    <link rel="stylesheet" href="calendarstyle.css">
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+  </head>
+  <body class="sb-nav-fixed">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+      <!-- Navbar Brand-->
+      
+      <div>  <img src="assets/logo2.png" alt="" width="160px" height="160px"> </div>
+      <!-- <a class="navbar-brand ps-3" href="index.html">Teacher Tech</a> -->
+
+      <!-- Sidebar Toggle-->
+      <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+      <!-- Navbar Search-->
+      <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+          <div class="input-group">
+              <!--  <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+             <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>-->
+          </div>
+      </form>
+      <!-- Navbar-->
+      <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+          <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                  <li><hr class="dropdown-divider" /></li>
+                  <li><a class="dropdown-item" href="file:///C:/Users/JARVAN/Desktop/Teacher_Tech/login.html">Logout</a></li>
+                  <li><hr class="dropdown-divider" /></li>
+              </ul>
+          </li>
+      </ul>
+  </nav>
+  <div id="layoutSidenav">
+      <div id="layoutSidenav_nav">
+          <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+              <div class="sb-sidenav-menu">
+                  <div class="nav">
+                      <div class="sb-sidenav-menu-heading">Core</div>
+                      <a class="nav-link" href="admin_dashboard.html">
+                          <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                          Dashboard
+                      </a>
+                      <div class="sb-sidenav-menu-heading">Interface</div>
+                            
+                           
+                      <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                          <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                          Pages
+                          <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                      </a>
+                      <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                          <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                             
+                              <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                                  <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="admin_login.html">Login</a>
+                                    <a class="nav-link" href="admin_register.html">Register</a>
+                                    <a class="nav-link" href="admin_password.html">Forgot Password</a>
+                                  </nav>
+                              </div>
+                              <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
+                                Admin Access
+                                  <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                              </a>
+                              <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                                  <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="admin_announcements.html">Announcements</a>
+                                    <a class="nav-link" href="admin_attendance.html">Attendance</a>
+                                    <a class="nav-link" href="admin_calendar.html">Calendar</a>
+                                    <a class="nav-link" href="lesson_plan.html">Lesson Plan</a>
+                                   
+                                  </nav>
+                              </div>
+                          </nav>
+                      </div>
+                   
+                  </div>
+              </div>
+              <div class="sb-sidenav-footer">
+                  <div class="small">Logged in as:</div>
+                  Admin
+              </div>
+          </nav>
+      </div>
+      <div id="layoutSidenav_content">
+        <main>
+    <div id="container">
+      <div id="header">
+        <div id="monthDisplay"></div>
+        <div>
+          <button id="backButton">Back</button>
+          <button id="nextButton">Next</button>
+        </div>
+      </div>
+
+      <div id="weekdays">
+        <div>Sunday</div>
+        <div>Monday</div>
+        <div>Tuesday</div>
+        <div>Wednesday</div>
+        <div>Thursday</div>
+        <div>Friday</div>
+        <div>Saturday</div>
+      </div>
+
+      <div id="calendar"></div>
+    </div>
+
+    <div id="newEventModal">
+      <h2>New Event</h2>
+
+      <input id="eventTitleInput" placeholder="Event Title" />
+
+      <button id="saveButton">Save</button>
+      <button id="cancelButton">Cancel</button>
+    </div>
+
+    <div id="deleteEventModal">
+      <h2>Event</h2>
+
+      <p id="eventText"></p>
+
+      <button id="deleteButton">Delete</button>
+      <button id="closeButton">Close</button>
+    </div>
+
+    <div id="modalBackDrop"></div>
+
+    <div id="modalBackDrop"></div>
+
+    <div class="container-fluid">
+
+      <!-- Page Heading -->
+     <!-- <h1 class="h1 mb-2 text-gray-800">Schedule</h1>
+      <p class="h3 mb-4"> Schedule of school year 2023 - 2024 for the SECOND Term</p>-->
+
+      <!-- Content Row -->
+      <div class="row">
+
+          
+
+              
+
+              <!-- Bar Chart -->
+              <div class="col-lg-12">
+                 
+                  
+                      
+                      
+                          <script src="https://cdn.anychart.com/releases/8.6.0/js/anychart-core.min.js"></script>
+                          <script src ="https://cdn.anychart.com/releases/8.6.0/js/anychart-gantt.min.js"></script>
+                          
+                          
+                          <div id = "gantt" class="col-lg-12" style="height:800px;">
+                              <div>
+                                          <script>
+                                              anychart.onDocumentReady(function () {
+                                          // create data
+                                          var data = [{
+                                              id: "1",
+                                              name: "Course ID",
+                                              actualStart: Date.UTC(2024, 01, 02),
+                                              actualEnd: Date.UTC(2024, 06, 15),
+                                              children: [{
+                                                      id: "1_1",
+                                                      name: "GED0083",
+                                                      actualStart: Date.UTC(2024, 01, 02),
+                                                      actualEnd: Date.UTC(2024, 01, 22),
+                                                      connectTo: "1_2",
+                                                      connectorType: "finish-start",
+                                                      progressValue: "75%"
+                                                  },
+                                                  {
+                                                      id: "1_2",
+                                                      name: "GED0043",
+                                                      actualStart: Date.UTC(2024, 01, 23),
+                                                      actualEnd: Date.UTC(2024, 02, 20),
+                                                      connectTo: "1_3",
+                                                      connectorType: "start-start",
+                                                      progressValue: "60%"
+                                                  },
+                                                  {
+                                                      id: "1_3",
+                                                      name: "IT0035",
+                                                      actualStart: Date.UTC(2024, 02, 23),
+                                                      actualEnd: Date.UTC(2024, 02, 23),
+                                                      connectTo: "1_4",
+                                                      connectorType: "start-start",
+                                                      progressValue: "80%"
+                                                  },
+                                                  {
+                                                      id: "1_4",
+                                                      name: "IT0123",
+                                                      actualStart: Date.UTC(2024, 02, 26),
+                                                      actualEnd: Date.UTC(2024, 04, 26),
+                                                      connectTo: "1_5",
+                                                      connectorType: "finish-finish",
+                                                      progressValue: "90%"
+                                                  },
+                                                  {
+                                                      id: "1_5",
+                                                      name: "IT049",
+                                                      actualStart: Date.UTC(2024, 04, 29),
+                                                      actualEnd: Date.UTC(2024, 05, 15),
+                                                      connectTo: "1_6",
+                                                      connectorType: "start-finish",
+                                                      progressValue: "60%"
+                                                  },
+                                                  {
+                                                      id: "1_6",
+                                                      name: "IT0039",
+                                                      actualStart: Date.UTC(2024, 05, 20),
+                                                      actualEnd: Date.UTC(2024, 05, 27),
+                                                      connectTo: "1_7",
+                                                      connectorType: "start-finish",
+                                                      progressValue: "100%"
+                                                  },
+                                                  {
+                                                      id: "1_7",
+                                                      name: "GED0061",
+                                                      actualStart: Date.UTC(2024, 05, 30),
+                                                      actualEnd: Date.UTC(2024, 06, 11),
+                                                      progressValue: "40%"
+                                                  },
+                                      
+                                              ]
+                                          }];
+                                          // create a data tree
+                                          var treeData = anychart.data.tree(data, "as-tree");
+                                      
+                                          // create a chart
+                                          var chart = anychart.ganttProject();
+                                      
+                                          // set the data
+                                          chart.data(treeData);
+                                          // configure the scale
+                                          chart.getTimeline().scale().maximum(Date.UTC(2024, 06, 30));
+                                          // set the container id
+                                          chart.container("gantt");
+                                          // initiate drawing the chart
+                                          chart.draw();
+                                          // fit elements to the width of the timeline
+                                          chart.fitAll();
+                                      });
+                                      </script>
+                              </div>
+                          </div>
+                      
+
+                  
+              </div>
+
+          
+
+     
+      </div>
+
+  </div>
+  <!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+
+
+  </main>
+    <script src="./calendarscript.js"></script>
+
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="js/scripts.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="assets/demo/chart-area-demo.js"></script>
+        <script src="assets/demo/chart-bar-demo.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+        <script src="js/datatables-simple-demo.js"></script>
+  </body>
+</html>
